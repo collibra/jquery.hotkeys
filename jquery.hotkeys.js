@@ -64,13 +64,12 @@
 
 			// TODO: Need to make sure this works consistently across platforms
 			if ( event.metaKey && !event.ctrlKey && special !== "meta" ) {
-        // Adds Mac Command key support
-        if ( jQuery.hotkeys.specialKeys[ event.which ] == "command" ) {
-          if ( special != "command" ) {
+        // adds support to mac command key
+        if(event.data === "command") {
+          if(special !== "command")
             modif += "command+";
-          }
         } else {
-				  modif += "meta+";
+			    modif += "meta+";
         }
 			}
 
