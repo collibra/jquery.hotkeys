@@ -94,7 +94,6 @@
 				}
 			}
 
-      console.log(possible);
 			for ( var i = 0, l = keys.length; i < l; i++ ) {
 				if ( possible[ keys[i] ] ) {
           isCommandPressed = false;
