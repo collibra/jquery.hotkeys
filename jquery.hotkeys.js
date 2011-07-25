@@ -41,6 +41,8 @@
 		var origHandler = handleObj.handler,
 			keys = handleObj.data.toLowerCase().split(" ");
 	
+    var isCommandPressed = false;
+
 		handleObj.handler = function( event ) {
 			// Don't fire in text-accepting inputs that we didn't directly bind to
 			if ( this !== event.target && (/textarea|select/i.test( event.target.nodeName ) ||
@@ -61,15 +63,17 @@
 			if ( event.ctrlKey && special !== "ctrl" ) {
 				modif += "ctrl+";
 			}
+      
+      if(jQuery.hotkeys.specialKeys[ event.which ] === "command") {
+        isCommandPressed = true;
+      }
 
 			// TODO: Need to make sure this works consistently across platforms
-			if ( event.metaKey && !event.ctrlKey && special !== "meta" ) {
-        // adds support to mac command key
-        if(event.data === "command") {
-          if(special !== "command")
-            modif += "command+";
+			if ( event.metaKey && !event.ctrlKey && special !== "meta" && special !== "command" ) {
+        if(isCommandPressed) {
+          modif += "command+";
         } else {
-			    modif += "meta+";
+          modif += "meta+";
         }
 			}
 
@@ -90,8 +94,10 @@
 				}
 			}
 
+      console.log(possible);
 			for ( var i = 0, l = keys.length; i < l; i++ ) {
 				if ( possible[ keys[i] ] ) {
+          isCommandPressed = false;
 					return origHandler.apply( this, arguments );
 				}
 			}
