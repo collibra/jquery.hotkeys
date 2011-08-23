@@ -18,6 +18,20 @@ The syntax is as follows:
 ## Types
 Supported types are `'keydown'`, `'keyup'` and `'keypress'`
 
+## Mac's Command Key
+
+(08/2011 - v0.8.1 or >)  
+This fork adds support to the mac's command key, you can map a ctrl+[some key] and a command+[some
+key] simultaneously. So the shortcut is gonna works for mac users naturally like native hotkeys. See
+the follow example:
+
+    $(document).bind('keydown', 'ctrl+shift+space', function() {
+      console.log('Yeah, you have the control!');
+    });
+    $(document).bind('keydown', 'command+shift+space', function() {
+      console.log('OMG! How coll is that, huh!?');
+    });
+
 ## Notes
 
 If you want to use more than one modifiers (e.g. alt+ctrl+z) you should define them by an alphabetical order e.g. alt+ctrl+shift
@@ -35,19 +49,6 @@ It known to be working with all the major browsers on all available platforms (W
  * Opera-9
  * Safari-3
  * Chrome-0.2
-
-## Mac's Command Key
-(08/2011 - v0.8.1 or >)
-This fork adds support to the mac's command key, you can map a ctrl+[some key] and a command+[some
-key] simultaneously. So the shortcut is gonna works for mac users naturally like native hotkeys. See
-the follow example:
-
-    $(document).bind('keydown', 'ctrl+shift+space', function() {
-      console.log('Yeah, you have the control!');
-    });
-    $(document).bind('keydown', 'command+shift+space', function() {
-      console.log('OMG! How coll is that, huh!?');
-    });
 
 ### Addendum
 
