@@ -26,7 +26,7 @@ Hotkeys aren't tracked if you're inside of an input element (unless you explicit
 
 ## jQuery Compatibility
 
-Works with jQuery 1.4.2 and newer.
+Works with jQuery 1.4.2 and newer, even with the jQuery 1.6.2 (a little bit different from the 1.4.x series).
 
 It known to be working with all the major browsers on all available platforms (Win/Mac/Linux)
 
@@ -35,6 +35,19 @@ It known to be working with all the major browsers on all available platforms (W
  * Opera-9
  * Safari-3
  * Chrome-0.2
+
+## Mac's Command Key
+(08/2011 - v0.8.1 or >)
+This fork adds support to the mac's command key, you can map a ctrl+[some key] and a command+[some
+key] simultaneously. So the shortcut is gonna works for mac users naturally like native hotkeys. See
+the follow example:
+
+    $(document).bind('keydown', 'ctrl+shift+space', function() {
+      console.log('Yeah, you have the control!');
+    });
+    $(document).bind('keydown', 'command+shift+space', function() {
+      console.log('OMG! How coll is that, huh!?');
+    });
 
 ### Addendum
 
