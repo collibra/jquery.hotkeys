@@ -28,6 +28,7 @@ the follow example:
     $(document).bind('keydown', 'ctrl+shift+space', function() {
       console.log('Yeah, you have the control!');
     });
+
     $(document).bind('keydown', 'command+shift+space', function() {
       console.log('OMG! How coll is that, huh!?');
     });
