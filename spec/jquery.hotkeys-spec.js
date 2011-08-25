@@ -1,3 +1,4 @@
+
 describe("jquery.hotkeys spec", function() {
   describe("key bindings", function() {
     function binder(key) {
