@@ -1,38 +1,46 @@
 describe("jquery.hotkeys spec", function() {
   describe("key bindings", function() {
     function binder(key) {
+      //console.log("Binding keydown event for key", key);
+      $("#bind_fixture").removeClass(key);
       $("#bind_fixture").bind("keydown", key, function(e) {
-        console.log('aeee! '+ key +' '+ e);
-        binded = true;
+        $(this).addClass(key);
+        //console.log('after pressing', key, ', class is ', $("#bind_fixture").attr('class'));
       });
     }
 
     describe("all special keys", function() {
-      var keyMap = jQuery.hotkeys.specialKeys; 
-      var keyCode, key, binded, inputText;
+      var keyMap = jQuery.hotkeys.specialKeys;
       var allCodes = [];
 
-      for(keyCode in keyMap) {
-        allCodes.push(keyCode);
+      for(var code in keyMap) {
+        allCodes.push(code);
       }
 
       beforeEach(function() {
-        if(!inputText) {
-          inputText = $("body").append("<input type='text' id='bind_fixture' />");
+        if ($('#bind_fixture').length == 0) {
+          $("body").append("<input type='text' id='bind_fixture' />");
         }
-        binded = false;
       });
 
-      var i;
-      for(i = 0; i < allCodes.length; i++) {
-        key = keyMap[allCodes[i]];
+      /* for loop does not work because of variable scope issue */
+      $.each(allCodes, function(i, keyCode){
+        var key = keyMap[allCodes[i]];
         it("be able to bind key: "+ key +"("+ keyCode +")", function() {
           binder(key);
-          // TODO: simulate the keydown event for each key
-          $("#bind_fixture").trigger($.Event("keydown", {keyCode:keyCode}));
-          expect(binded).toBe(true);
+
+          //console.log("BEFORE:", keyCode, $('#bind_fixture').hasClass(key));
+
+          var evt = $.Event("keydown", {which: keyCode});
+          //console.log("Simulating pressing", key, " of keycode", evt.which);
+          // simulate the keydown event for each key
+          $("#bind_fixture").trigger(evt);
+
+          //console.log("AFTER:", keyCode, $('#bind_fixture').hasClass(key));
+
+          expect($('#bind_fixture').hasClass(key)).toBe(true);
         })
-      }
+      })
     });
 
   });
