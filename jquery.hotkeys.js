@@ -32,55 +32,35 @@
 		}
 	};
 
-	var sequenceTimeout, sequenceKeys = [];
-
 	function keyHandler( handleObj ) {
 		// Only care when a possible input has been specified
 		if ( typeof handleObj.data !== "string" ) {
-            handleObj.data = {
-                combi: handleObj.data,
-                disableInInput: true
-            };
+			return;
 		}
-
-		        // Only care when a possible input has been specified
-        if (typeof handleObj.data !== "object" ||
-                handleObj.data === null ||
-                typeof handleObj.data.combi !== "string") {
-            return;
-        }
 		
 		var origHandler = handleObj.handler,
-				keys = handleObj.data.toLowerCase().split(" "),
-				disableInInput = handleObj.data.disableInInput;
-
-		var sequences = [];
-        jQuery.each(keys, function() {
-            if (/;/.test(this)) {
-                sequences.push(this.split(";"));
-            }
-        });
+			keys = handleObj.data.toLowerCase().split(" ");
 	
     var isCommandPressed = false;
 
 		handleObj.handler = function( event ) {
 			// Don't fire in text-accepting inputs that we didn't directly bind to
-			if (disableInInput && this !== event.target && (/textarea|select/i.test(event.target.nodeName) ||
-				 /text|password|search|tel|url|email|number/.test(event.target.type))) {
+			if ( this !== event.target && (/textarea|select/i.test( event.target.nodeName ) ||
+				 event.target.type === "text" || event.target.type === "password") ) {
 				return;
 			}
 
 			// Keypress represents characters, not special keys
-			var special = event.type !== "keypress" && jQuery.hotkeys.specialKeys[event.which],
-					character = String.fromCharCode(event.which).toLowerCase(),
-					key, modif = "", possible = {};
+			var special = event.type !== "keypress" && jQuery.hotkeys.specialKeys[ event.which ],
+				character = String.fromCharCode( event.which ).toLowerCase(),
+				key, modif = "", possible = {};
 
 			// check combinations (alt|ctrl|shift+anything)
-			if (event.altKey && special !== "alt") {
+			if ( event.altKey && special !== "alt" ) {
 				modif += "alt+";
 			}
 
-			if (event.ctrlKey && special !== "ctrl") {
+			if ( event.ctrlKey && special !== "ctrl" ) {
 				modif += "ctrl+";
 			}
       
@@ -89,7 +69,7 @@
       }
 
 			// TODO: Need to make sure this works consistently across platforms
-			if (event.metaKey && !event.ctrlKey && special !== "meta" && special !== "command") {
+			if ( event.metaKey && !event.ctrlKey && special !== "meta" && special !== "command" ) {
         if(isCommandPressed) {
           modif += "command+";
         } else {
@@ -97,76 +77,33 @@
         }
 			}
 
-			if (event.shiftKey && special !== "shift") {
+			if ( event.shiftKey && special !== "shift" ) {
 				modif += "shift+";
 			}
       
-			if (special) {
-				possible[modif + special] = true;
+			if ( special ) {
+				possible[ modif + special ] = true;
+
 			} else {
-				possible[modif + character] = true;
-				possible[modif + jQuery.hotkeys.shiftNums[character]] = true;
+				possible[ modif + character ] = true;
+				possible[ modif + jQuery.hotkeys.shiftNums[ character ] ] = true;
 
 				// "$" can be triggered as "Shift+4" or "Shift+$" or just "$"
-				if (modif === "shift+") {
-					possible[jQuery.hotkeys.shiftNums[character]] = true;
+				if ( modif === "shift+" ) {
+					possible[ jQuery.hotkeys.shiftNums[ character ] ] = true;
 				}
 			}
 
-			for (var i = 0, l = keys.length; i < l; i++) {
-				// check for sequence based shortcut
-                for (var c = 0; c < sequences.length; c++) {
-
-                    if (sequences[c][sequenceKeys.length] && possible[ sequences[c][sequenceKeys.length] ] && ( sequenceKeys.length == 0 || IsPartialSequence(sequenceKeys, sequences[c]) )) {
-                        sequenceKeys.push(sequences[c][sequenceKeys.length]);
-
-                        clearTimeout(sequenceTimeout);
-                        sequenceTimeout = window.setTimeout(function() {
-                            ClearSequence();
-                        }, 1000);
-                    }
-
-                    if (sequenceKeys && SequencesEqual(sequenceKeys, sequences[c])) {
-                        ClearSequence();
-                        isCommandPressed = false;
-                        return origHandler.apply(this, arguments);
-                    }
-                }
+			for ( var i = 0, l = keys.length; i < l; i++ ) {
+				if ( possible[ keys[i] ] ) {
+          isCommandPressed = false;
+					return origHandler.apply( this, arguments );
+				}
 			}
 		};
 	}
 
-	function ClearSequence() {
-        window.setTimeout(function() {
-            clearTimeout(sequenceTimeout);
-            sequenceTimeout = null;
-            sequenceKeys = [];
-        }, 50);
-    }
-
-    function IsPartialSequence(partialSequence, sequence) {
-        for (var i = 0, l = partialSequence.length; i < l; i++) {
-            if (partialSequence[i] !== sequence[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function SequencesEqual(first, second) {
-        if (! first || ! second || first.length != second.length) {
-            return false;
-        }
-
-        for (var i = 0, l = second.length; i < l; i++) {
-            if (first[i] !== second[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-	jQuery.each(["keydown", "keyup", "keypress"], function() {
+	jQuery.each([ "keydown", "keyup", "keypress" ], function() {
 		jQuery.event.special[ this ] = { add: keyHandler };
 	});
 
