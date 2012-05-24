@@ -18,6 +18,13 @@ The syntax is as follows:
 ## Types
 Supported types are `'keydown'`, `'keyup'` and `'keypress'`
 
+## Sequences
+Handlers can be bound to a keypresses that contain a definable sequence of characters. For instance, pressing the `g` then `a` keys. The keypresses in the sequence must be executed within one second of each other to trigger the handler. Any number of characters can be required of a sequence and multiple sequences (seperated by a space) can be bound to the same handler.
+
+jQuery(document).bind('keydown', 'g;a', function (evt) { 
+  alert('g then a');
+});
+
 ## Mac's Command Key
 
 (08/2011 - v0.8.1 or >)  
