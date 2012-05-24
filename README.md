@@ -1,7 +1,7 @@
 #About
 **jQuery Hotkeys** is a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination.  
 
-This plugin is based off of the plugin by Tzury Bar Yochay: [jQuery.hotkeys](http://github.com/tzuryby/hotkeys)
+This plugin is based off of the plugin by Tzury Bar Yochay: [jQuery.hotkeys](http://github.com/tzuryby/jquery.hotkeys)
 
 The syntax is as follows:
 
@@ -18,6 +18,21 @@ The syntax is as follows:
 ## Types
 Supported types are `'keydown'`, `'keyup'` and `'keypress'`
 
+## Mac's Command Key
+
+(08/2011 - v0.8.1 or >)  
+This fork adds support to the mac's command key, you can map a ctrl+[some key] and a command+[some
+key] simultaneously. So the shortcut is gonna works for mac users naturally like native hotkeys. See
+the follow example:
+
+    $(document).bind('keydown', 'ctrl+shift+space', function() {
+      console.log('Yeah, you have the control!');
+    });
+
+    $(document).bind('keydown', 'command+shift+space', function() {
+      console.log('OMG! How coll is that, huh!?');
+    });
+
 ## Notes
 
 If you want to use more than one modifiers (e.g. alt+ctrl+z) you should define them by an alphabetical order e.g. alt+ctrl+shift
@@ -26,7 +41,7 @@ Hotkeys aren't tracked if you're inside of an input element (unless you explicit
 
 ## jQuery Compatibility
 
-Works with jQuery 1.4.2 and newer.
+Works with jQuery 1.4.2 and newer, even with the jQuery 1.6.2 (a little bit different from the 1.4.x series).
 
 It known to be working with all the major browsers on all available platforms (Win/Mac/Linux)
 

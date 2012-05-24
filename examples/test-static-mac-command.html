@@ -1,0 +1,49 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div>press R to reset</div>
+    <div id="command">Command</div>
+    <div id="command_a">Command+alt</div>
+    <div id="command_shift_space">Command+shift+space</div>
+    <div id="ctrl">Ctrl</div>
+    <div id="ctrl_a">Ctrl + alt</div>
+    <div id="ctrl_shift_space">Ctrl+shift+space</div>
+  </body>
+  <script src="jquery.min.js"></script>
+  <script src="../jquery.hotkeys.js"></script>
+  <script>
+    $(document).ready(function() {
+      var origColors = {
+        command:$("#command").css("color"),
+        command_a:$("#command_a").css("color"),
+        command_shift_space:$("#command_shift_space").css("color"),
+      };
+      $(document).bind('keydown', 'r', function(event) {
+        $("#command").css("color", origColors["command"]);
+        $("#command_a").css("color", origColors["command_a"]);
+        $("#command_shift_space").css("color", origColors["command_shift_space"]);
+      });
+
+      $(document).bind('keydown', 'command', function(event) {
+        $("#command").css("color", "#f00");
+      });
+      $(document).bind('keydown', 'command+alt', function(event) {
+        $("#command_a").css("color", "#f00");
+      });
+      $(document).bind('keydown', 'command+shift+space', function(event) {
+        $("#command_shift_space").css("color", "#f00");
+      });
+
+      $(document).bind('keydown', 'ctrl', function(event) {
+        $("#ctrl").css("color", "#f00");
+      });
+      $(document).bind('keydown', 'ctrl+alt', function(event) {
+        $("#ctrl_a").css("color", "#f00");
+      });
+      $(document).bind('keydown', 'ctrl+shift+space', function(event) {
+        $("#ctrl_shift_space").css("color", "#f00");
+      });
+    });
+    </script>
+</html>
